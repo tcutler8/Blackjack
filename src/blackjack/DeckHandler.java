@@ -7,13 +7,13 @@ public class DeckHandler {
 	private final Random rng = new Random();
 	
 	private final int DECK_SIZE = 52;
-	private final Card[] deck = new Card[DECK_SIZE];
+	private final Card[] fullDeck = new Card[DECK_SIZE];
 
 	public DeckHandler() {
 		int i = 0;
 		for (final CardSuit s : CardSuit.values())
 			for (final CardValue v : CardValue.values()) {
-				deck[i] = new Card(v, s);
+				fullDeck[i] = new Card(v, s);
 				++i;
 			}
 	}
@@ -25,8 +25,8 @@ public class DeckHandler {
 		// makes sure the card hasn't already been dealt before dealing
 		do {
 			alreadyUsed = false;
-			card = deck[rng.nextInt(DECK_SIZE)];
-			for (Card c : deck)
+			card = fullDeck[rng.nextInt(DECK_SIZE)];
+			for (Card c : fullDeck)
 				if (c.isInUse())
 					alreadyUsed = true;
 		} while (alreadyUsed);
