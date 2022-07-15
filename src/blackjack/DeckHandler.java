@@ -18,6 +18,14 @@ public class DeckHandler {
 			}
 	}
 	
+	public int getCardsLeftCount() {
+		int count = DECK_SIZE;
+		for (Card c : fullDeck)
+			if (c.isInUse())
+				--count;
+		return count;
+	}
+	
 	public void dealTo(Player player) {
 		int randInt;
 		do {
