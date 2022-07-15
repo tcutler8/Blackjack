@@ -19,19 +19,13 @@ public class DeckHandler {
 	}
 	
 	public void dealTo(Player player) {
-		Card card;
-		
-		boolean alreadyUsed;
-		// makes sure the card hasn't already been dealt before dealing
+		int randInt;
 		do {
-			alreadyUsed = false;
-			card = fullDeck[rng.nextInt(DECK_SIZE)];
-			for (Card c : fullDeck)
-				if (c.isInUse())
-					alreadyUsed = true;
-		} while (alreadyUsed);
+			randInt = rng.nextInt(DECK_SIZE);
+		} while (fullDeck[randInt].isInUse());
+		fullDeck[randInt].use(true);
 		
-		player.deal(card);
+		player.deal(fullDeck[randInt]);
 	}
 
 }
