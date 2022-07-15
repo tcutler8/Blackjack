@@ -12,6 +12,8 @@ public class Card {
 		this.suit  = suit;
 	}
 	
+	public CardValue getValue() {return value;}
+	
 	public boolean isInUse() {return isInUse;}
 	
 	public void use(boolean use) {isInUse = use;}
