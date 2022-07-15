@@ -6,7 +6,7 @@ public class DeckHandler {
 
 	private final Random rng = new Random();
 	
-	private final int DECK_SIZE = 52;
+	public  final int DECK_SIZE = 52;
 	private final Card[] fullDeck = new Card[DECK_SIZE];
 
 	public DeckHandler() {
