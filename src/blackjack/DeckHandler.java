@@ -35,5 +35,10 @@ public class DeckHandler {
 		
 		player.deal(fullDeck[randInt]);
 	}
+	
+	public void shuffle() {
+		for (Card c : fullDeck)
+			c.use(false);
+	}
 
 }
