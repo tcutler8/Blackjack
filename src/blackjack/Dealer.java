@@ -1,5 +1,10 @@
 package blackjack;
 
+/**
+ * Represents the dealer in Blackjack.
+ * 
+ * @author tayson
+ */
 public class Dealer extends Player {
 
 	/**
