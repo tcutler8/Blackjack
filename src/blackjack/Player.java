@@ -36,6 +36,9 @@ public abstract class Player {
 		int score     = 0;
 
 		for (Card c : hand) 
+			// fall through switch that adds 1 to the score 
+			// for the card in question and every card with
+			// a value that is less than it. 
 			switch (c.getValue()) {
 				case KING:
 				case QUEEN:
@@ -49,7 +52,8 @@ public abstract class Player {
 				case FOUR:  score++;
 				case THREE: score++;
 				case TWO:   score++;
-				case ACE:	score++; acesCount++;
+				// used later in case the ace can worth be 11 points
+				case ACE:	score++; acesCount++; 
 			}
 		
 		// return the score, but add 10 to it if the score
