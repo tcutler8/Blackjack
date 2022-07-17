@@ -51,7 +51,7 @@ public abstract class Player {
 				case FIVE:  score++;	
 				case FOUR:  score++;
 				case THREE: score++;
-				case TWO:   score++;
+				case TWO:   score += 2; break;
 				// used later in case the ace can worth be 11 points
 				case ACE:	score++; acesCount++; 
 			}
