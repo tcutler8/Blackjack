@@ -2,8 +2,18 @@ package blackjack;
 
 import java.util.Scanner;
 
+/**
+ * Game of BlackJack between the dealer (computer) and the user. 
+ * 
+ * @author mark
+ */
 public class BlackjackGame {
 
+	/**
+	 * Currently acting as a test client for the other classes  to make
+	 * sure all of the logic works before implementing it into a GUI.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		User player1 = new User(2500);
 		Dealer dealer = new Dealer();
