@@ -87,7 +87,14 @@ public class BlackjackGame {
 		System.out.println();
 
 		// Test to see if player wins
-		if (player1.getTotalScore() < 22 && player1.getTotalScore() > dealer.getTotalScore() || dealer.getTotalScore() > 21) {
+		if (dealer.getTotalScore() == player1.getTotalScore()) {
+			System.out.println("Push!!"); // Push
+		}
+		else if (dealer.getTotalScore() > 21 && player1.getTotalScore() < 22) {
+			System.out.println("Player wins!!");
+			player1.changeBalance(bet); // Player wins bet
+		}
+		else if (player1.getTotalScore() < 22 && player1.getTotalScore() > dealer.getTotalScore()) {
 			System.out.println("Player wins!!");
 			player1.changeBalance(bet); // Player wins bet
 		}
