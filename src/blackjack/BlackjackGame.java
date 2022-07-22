@@ -1,26 +1,38 @@
 package blackjack;
 
+import java.awt.EventQueue;
 import java.util.Scanner;
 
 /**
  * Game of BlackJack between the dealer (computer) and the user. 
  * 
- * @author mark
+ * @author mark + tayson
  */
 public class BlackjackGame {
 
-	/**
-	 * Currently acting as a test client for the other classes  to make
-	 * sure all of the logic works before implementing it into a GUI.
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		User player1 = new User(2500);
-		Dealer dealer = new Dealer();
-		DeckHandler deck = new DeckHandler();
-		Scanner scan = new Scanner(System.in);
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BlackjackFrame frame = new BlackjackFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	@SuppressWarnings("unused")
+	private static void consoleTestClient() {
+		User        player1   = new User(2500);
+		Dealer      dealer 	  = new Dealer();
+		DeckHandler deck 	  = new DeckHandler();
+		Scanner     scan 	  = new Scanner(System.in);
+		String      hitOrStay = "h";
 		int bet = 0;
-		String hitOrStay = "h";
 		
 		// Player1 starting chip count
 		System.out.println("Player starting chip count: " + player1.getBalance());
@@ -117,7 +129,6 @@ public class BlackjackGame {
 		deck.shuffle();
 		System.out.print("Amount of cards in new deck: ");
 		System.out.println(deck.getCardsLeftCount());
-		
 	}
 
 }
