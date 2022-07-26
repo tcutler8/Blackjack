@@ -9,6 +9,11 @@ import java.util.Scanner;
  * @author mark + tayson
  */
 public class BlackjackGame {
+	
+	private static User        player = new User(2500);
+	private static Dealer      dealer = new Dealer();
+	private static DeckHandler deck   = new DeckHandler();
+	private static int bet = 0;
 
 	public static void main(String[] args) {
 		
@@ -27,15 +32,11 @@ public class BlackjackGame {
 
 	@SuppressWarnings("unused")
 	private static void consoleTestClient() {
-		User        player1   = new User(2500);
-		Dealer      dealer 	  = new Dealer();
-		DeckHandler deck 	  = new DeckHandler();
-		Scanner     scan 	  = new Scanner(System.in);
+		Scanner     scan 	 = new Scanner(System.in);
 		String      hitOrStay = "h";
-		int bet = 0;
 		
 		// Player1 starting chip count
-		System.out.println("Player starting chip count: " + player1.getBalance());
+		System.out.println("Player starting chip count: " + player.getBalance());
 		System.out.print("Enter bet amount: ");
 		bet = scan.nextInt();
 		System.out.println();
@@ -50,11 +51,11 @@ public class BlackjackGame {
 		
 		// Player starting out with two cards
 		System.out.println("Player:");
-		deck.dealTo(player1);
-		deck.dealTo(player1);
-		System.out.println("Hand:	" + player1.getHand().toString().replace("[", "").replace("]", ""));
-		System.out.println("Score:	" + player1.getTotalScore());
-		if (player1.getTotalScore() == 21) {
+		deck.dealTo(player);
+		deck.dealTo(player);
+		System.out.println("Hand:	" + player.getHand().toString().replace("[", "").replace("]", ""));
+		System.out.println("Score:	" + player.getTotalScore());
+		if (player.getTotalScore() == 21) {
 			System.out.println("BLACKJACK!!!");
 			hitOrStay = "s";
 		}
@@ -67,22 +68,22 @@ public class BlackjackGame {
 			hitOrStay = scan.next();
 			System.out.println();
 			if (hitOrStay.equals("h")) {
-				deck.dealTo(player1);
-				System.out.println("Hand:	" + player1.getHand().toString().replace("[", "").replace("]", ""));
+				deck.dealTo(player);
+				System.out.println("Hand:	" + player.getHand().toString().replace("[", "").replace("]", ""));
 			}
-			if (player1.getTotalScore() == 21) {
+			if (player.getTotalScore() == 21) {
 				hitOrStay = "s";
 				System.out.println("BLACKJACK!!!");
 			}
 			if (hitOrStay.equals("s")) {
-				System.out.println("Player will stay with a score of " + player1.getTotalScore());
+				System.out.println("Player will stay with a score of " + player.getTotalScore());
 			}
-			if (player1.getTotalScore() > 21) {
-				System.out.println("Score:	"	+ player1.getTotalScore() + " BUST!");
+			if (player.getTotalScore() > 21) {
+				System.out.println("Score:	"	+ player.getTotalScore() + " BUST!");
 				hitOrStay = "s";
 			}
 			else {
-				System.out.println("Score:	" + player1.getTotalScore());
+				System.out.println("Score:	" + player.getTotalScore());
 			}
 		}
 		System.out.println();
@@ -99,25 +100,25 @@ public class BlackjackGame {
 		System.out.println();
 
 		// Test to see if player wins
-		if (dealer.getTotalScore() == player1.getTotalScore()) {
+		if (dealer.getTotalScore() == player.getTotalScore()) {
 			System.out.println("Push!!"); // Push
 		}
-		else if (dealer.getTotalScore() > 21 && player1.getTotalScore() < 22) {
+		else if (dealer.getTotalScore() > 21 && player.getTotalScore() < 22) {
 			System.out.println("Player wins!!");
-			player1.changeBalance(bet); // Player wins bet
+			player.changeBalance(bet); // Player wins bet
 		}
-		else if (player1.getTotalScore() < 22 && player1.getTotalScore() > dealer.getTotalScore()) {
+		else if (player.getTotalScore() < 22 && player.getTotalScore() > dealer.getTotalScore()) {
 			System.out.println("Player wins!!");
-			player1.changeBalance(bet); // Player wins bet
+			player.changeBalance(bet); // Player wins bet
 		}
 		else {
 			System.out.println("Player loses!!");
-			player1.changeBalance(bet * -1); // Player loses bet
+			player.changeBalance(bet * -1); // Player loses bet
 		}
 		System.out.println();
 		
 		// Show player's updated balance
-		System.out.println("Player current chip count: " + player1.getBalance());
+		System.out.println("Player current chip count: " + player.getBalance());
 		
 		// This is to show how many cards left in the deck
 		System.out.print("Amount of cards left in the deck: ");
@@ -125,7 +126,7 @@ public class BlackjackGame {
 		
 		// Return cards and shuffle the deck 
 		dealer.clearHand();
-		player1.clearHand();
+		player.clearHand();
 		deck.shuffle();
 		System.out.print("Amount of cards in new deck: ");
 		System.out.println(deck.getCardsLeftCount());
