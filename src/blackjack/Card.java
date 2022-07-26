@@ -11,7 +11,10 @@ public class Card {
 
 	private final CardValue value;
 	private final CardSuit  suit;
+
 	private final ImageIcon face;
+	private static final ImageIcon back = new ImageIcon(Card.class.getResource(
+			"cards-png/card-back.png"));
 	
 	private boolean isInUse = false;
 	
@@ -29,6 +32,10 @@ public class Card {
 				+ ".png"
 				));
 	}
+	/**
+	 * @return the image of the back of a card
+	 */
+	public static ImageIcon getBackImage() {return back;}
 	
 	/**
 	 * @return the card's corresponding image
