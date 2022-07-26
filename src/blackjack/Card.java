@@ -1,5 +1,7 @@
 package blackjack;
 
+import javax.swing.ImageIcon;
+
 /**
  * Represents a basic playing card.
  *  
@@ -9,6 +11,7 @@ public class Card {
 
 	private final CardValue value;
 	private final CardSuit  suit;
+	private final ImageIcon face;
 	
 	private boolean isInUse = false;
 	
@@ -20,8 +23,18 @@ public class Card {
 	public Card(CardValue value, CardSuit suit) {
 		this.value = value;
 		this.suit  = suit;
+		this.face = new ImageIcon(getClass().getResource(
+				"cards-png/"
+				+ value.toString() + "-" + suit.toString()
+				+ ".png"
+				));
 	}
 	
+	/**
+	 * @return the card's corresponding image
+	 */
+	public ImageIcon getFaceImage() {return face;}
+
 	/**
 	 * @return value of the card.
 	 */
