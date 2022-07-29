@@ -10,13 +10,14 @@ import java.util.Scanner;
  */
 public class BlackjackGame {
 	
-	private static User        player = new User(2500);
-	private static Dealer      dealer = new Dealer();
-	private static DeckHandler deck   = new DeckHandler();
+	public final static User player = new User(2500);
+	private static Dealer dealer = new Dealer();
+	private static DeckHandler deck = new DeckHandler();
 	private static int bet = 0;
 
 	public static void main(String[] args) {
-		
+
+		System.setProperty("awt.useSystemAAFontSettings","on"); // set anti-aliasing
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -29,6 +30,8 @@ public class BlackjackGame {
 		});
 		
 	}
+	
+	public static void setBet(int bet) {BlackjackGame.bet = bet;}
 
 	@SuppressWarnings("unused")
 	private static void consoleTestClient() {
