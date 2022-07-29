@@ -28,74 +28,73 @@ public class ActionPanel extends JPanel {
 	public ActionPanel() {
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 		setBackground(new Color(0, 0, 0));
-		setLayout(new GridLayout(1, 2, 0, 50));
 		
 		createBetPlacementPanel();
 	}
 	
 	public void createBetPlacementPanel() {
-			JPanel panelBetPlacement = new JPanel();
-			panelBetPlacement.setOpaque(false);
-			panelBetPlacement.setLayout(new GridLayout(0, 2, 0, 0));
-			add(panelBetPlacement);
+		JPanel panelBetPlacement = new JPanel();
+		panelBetPlacement.setOpaque(false);
+		panelBetPlacement.setLayout(new GridLayout(1, 2, 0, 0));
+		add(panelBetPlacement);
+		
+			JPanel panelSetBet = new JPanel();
+			panelSetBet.setBorder(new EmptyBorder(10, 50, 20, 50));
+			panelSetBet.setOpaque(false);
+			panelSetBet.setLayout(new BorderLayout(0, 5));
+			panelBetPlacement.add(panelSetBet);
 			
-				JPanel panelSetBet = new JPanel();
-				panelSetBet.setBorder(new EmptyBorder(10, 50, 20, 50));
-				panelSetBet.setOpaque(false);
-				panelSetBet.setLayout(new BorderLayout(0, 5));
-				panelBetPlacement.add(panelSetBet);
+				lblBetAmount = new JLabel();
+				updateBetAmount();
+				lblBetAmount.setFont(new Font("Dialog", Font.BOLD, 16));
+				lblBetAmount.setForeground(Color.WHITE);
+				lblBetAmount.setHorizontalAlignment(SwingConstants.CENTER);
+				panelSetBet.add(lblBetAmount, BorderLayout.NORTH);
 				
-					lblBetAmount = new JLabel();
-					updateBetAmount();
-					lblBetAmount.setFont(new Font("Dialog", Font.BOLD, 16));
-					lblBetAmount.setForeground(Color.WHITE);
-					lblBetAmount.setHorizontalAlignment(SwingConstants.CENTER);
-					panelSetBet.add(lblBetAmount, BorderLayout.NORTH);
-					
-					JPanel panelBtnsIncrementBet = new JPanel();
-					panelBtnsIncrementBet.setOpaque(false);
-					panelBtnsIncrementBet.setLayout(new GridLayout(0, 5, 5, 0));
-					panelSetBet.add(panelBtnsIncrementBet, BorderLayout.CENTER);
-					
-						JButton btnPlus1 = createButton("+$1");
-						btnChangeBetActionListener(btnPlus1, 1);
-						panelBtnsIncrementBet.add(btnPlus1);
-						
-						JButton btnPlus5 = createButton("+$5");
-						btnChangeBetActionListener(btnPlus5, 5);
-						panelBtnsIncrementBet.add(btnPlus5);
-						
-						JButton btnPlus10 = createButton("+$10");
-						btnChangeBetActionListener(btnPlus10, 10);
-						panelBtnsIncrementBet.add(btnPlus10);
-						
-						JButton btnPlus25 = createButton("+$25");
-						btnChangeBetActionListener(btnPlus25, 25);
-						panelBtnsIncrementBet.add(btnPlus25);
-						
-						JButton btnPlus100 = createButton("+$100");
-						btnChangeBetActionListener(btnPlus100, 100);
-						panelBtnsIncrementBet.add(btnPlus100);
-						
-					JButton btnResetBet = createButton("Reset Bet");
-					btnChangeBetActionListener(btnResetBet, 0);
-					panelSetBet.add(btnResetBet, BorderLayout.SOUTH);
-						
-				JPanel panelPlaceBet = new JPanel();
-				panelPlaceBet.setOpaque(false);
-				panelPlaceBet.setBorder(new EmptyBorder(40, 130, 40, 130));
-				panelPlaceBet.setLayout(new BorderLayout(0, 0));
-				panelBetPlacement.add(panelPlaceBet);
+				JPanel panelBtnsIncrementBet = new JPanel();
+				panelBtnsIncrementBet.setOpaque(false);
+				panelBtnsIncrementBet.setLayout(new GridLayout(0, 5, 5, 0));
+				panelSetBet.add(panelBtnsIncrementBet, BorderLayout.CENTER);
 				
-					JButton btnPlaceBet = createButton("Place Bet");
-					btnPlaceBet.setFont(new Font("Dialog", Font.BOLD, 20));
-					btnPlaceBet.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							BlackjackGame.setBet(bet);
-							panelBetPlacement.setVisible(false);
-						}
-					});
-					panelPlaceBet.add(btnPlaceBet, BorderLayout.CENTER);
+					JButton btnPlus1 = createButton("+$1");
+					btnChangeBetActionListener(btnPlus1, 1);
+					panelBtnsIncrementBet.add(btnPlus1);
+					
+					JButton btnPlus5 = createButton("+$5");
+					btnChangeBetActionListener(btnPlus5, 5);
+					panelBtnsIncrementBet.add(btnPlus5);
+					
+					JButton btnPlus10 = createButton("+$10");
+					btnChangeBetActionListener(btnPlus10, 10);
+					panelBtnsIncrementBet.add(btnPlus10);
+					
+					JButton btnPlus25 = createButton("+$25");
+					btnChangeBetActionListener(btnPlus25, 25);
+					panelBtnsIncrementBet.add(btnPlus25);
+					
+					JButton btnPlus100 = createButton("+$100");
+					btnChangeBetActionListener(btnPlus100, 100);
+					panelBtnsIncrementBet.add(btnPlus100);
+					
+				JButton btnResetBet = createButton("Reset Bet");
+				btnChangeBetActionListener(btnResetBet, 0);
+				panelSetBet.add(btnResetBet, BorderLayout.SOUTH);
+					
+			JPanel panelPlaceBet = new JPanel();
+			panelPlaceBet.setOpaque(false);
+			panelPlaceBet.setBorder(new EmptyBorder(40, 90, 40, 90));
+			panelPlaceBet.setLayout(new BorderLayout(0, 0));
+			panelBetPlacement.add(panelPlaceBet);
+			
+				JButton btnPlaceBet = createButton("Place Bet");
+				btnPlaceBet.setFont(new Font("Dialog", Font.BOLD, 20));
+				btnPlaceBet.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						BlackjackGame.setBet(bet);
+						panelBetPlacement.setVisible(false);
+					}
+				});
+				panelPlaceBet.add(btnPlaceBet, BorderLayout.CENTER);
 	}
 	
 	private JButton createButton(String buttonText) {
