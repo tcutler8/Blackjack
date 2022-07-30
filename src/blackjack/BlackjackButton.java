@@ -24,7 +24,7 @@ public class BlackjackButton extends JButton {
 						Color.LIGHT_GRAY, Color.LIGHT_GRAY,
 						Color.DARK_GRAY,  Color.DARK_GRAY),
 				new EmptyBorder(3, 3, 3, 3)));
-		setForeground(Color.BLACK);
+		setForeground(Color.WHITE);
 		setBackground(Color.GRAY);
 		setFont(new Font("Dialog", Font.PLAIN, 16));
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

@@ -23,7 +23,7 @@ public class BlackjackFrame extends JFrame {
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{1000};
-		gbl_contentPane.rowHeights = new int[]{620, 100};
+		gbl_contentPane.rowHeights = new int[]{660, 120};
 		contentPane.setLayout(gbl_contentPane);
 		
 		JPanel gamePanel = new GamePanel();
