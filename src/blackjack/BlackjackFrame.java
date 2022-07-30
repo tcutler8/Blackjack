@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 public class BlackjackFrame extends JFrame {
 
+	private static final long serialVersionUID = -6294229596642599442L;
+	
 	private JPanel contentPane;
 
 	/**

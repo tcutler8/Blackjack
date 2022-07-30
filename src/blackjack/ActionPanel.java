@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 
 public class ActionPanel extends JPanel {
 
+	private static final long serialVersionUID = 2137955758829872303L;
+	
 	private JLabel lblBetAmount;
 	private int bet = 0;
 	

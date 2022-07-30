@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 
 public class BlackjackButton extends JButton {
 
+	private static final long serialVersionUID = 881155141189760368L;
+
 	/**
 	 * Create the button.
 	 * @param buttonText text to initialize the button with
