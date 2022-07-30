@@ -86,8 +86,6 @@ public class BlackjackGame extends  JFrame {
 			deck.dealTo(user);
 			deck.dealTo(dealer);
 		}
-		System.out.println(user.getHand());
-		System.out.println(dealer.getHand());
 	}
 
 	//
