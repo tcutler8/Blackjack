@@ -19,6 +19,9 @@ public class ActionPanel extends JPanel {
 	
 	private JLabel lblBetAmount;
 	private int bet = 0;
+	BlackjackGame playerChips = new BlackjackGame();
+	private int maxBet = BlackjackGame.getChips(); 
+	// 
 	
 	/**
 	 * Create the panel.
@@ -54,26 +57,32 @@ public class ActionPanel extends JPanel {
 				panelSetBet.add(panelBtnsIncrementBet, BorderLayout.CENTER);
 				
 					JButton btnPlus1 = new BlackjackButton("+$1");
+					btnPlus1.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus1, 1);
 					panelBtnsIncrementBet.add(btnPlus1);
 					
 					JButton btnPlus5 = new BlackjackButton("+$5");
+					btnPlus5.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus5, 5);
 					panelBtnsIncrementBet.add(btnPlus5);
 					
 					JButton btnPlus10 = new BlackjackButton("+$10");
+					btnPlus10.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus10, 10);
 					panelBtnsIncrementBet.add(btnPlus10);
 					
 					JButton btnPlus25 = new BlackjackButton("+$25");
+					btnPlus25.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus25, 25);
 					panelBtnsIncrementBet.add(btnPlus25);
 					
 					JButton btnPlus100 = new BlackjackButton("+$100");
+					btnPlus100.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus100, 100);
 					panelBtnsIncrementBet.add(btnPlus100);
 					
 				JButton btnResetBet = new BlackjackButton("Reset Bet");
+				btnResetBet.setForeground(Color.WHITE);
 				btnChangeBetActionListener(btnResetBet, 0);
 				panelSetBet.add(btnResetBet, BorderLayout.SOUTH);
 					
@@ -83,26 +92,54 @@ public class ActionPanel extends JPanel {
 			panelPlaceBet.setLayout(new BorderLayout(0, 0));
 			panelBetPlacement.add(panelPlaceBet);
 			
+			JLabel lblChipCount = new JLabel();
+			lblChipCount.setText("Starting Chip Count: $" + maxBet);
+			lblChipCount.setHorizontalAlignment(SwingConstants.CENTER);
+			lblChipCount.setForeground(Color.WHITE);
+			lblChipCount.setFont(new Font("Dialog", Font.BOLD, 16));
+			panelPlaceBet.add(lblChipCount, BorderLayout.NORTH);
+			
 				JButton btnPlaceBet = new BlackjackButton("Place Bet");
+				btnPlaceBet.setForeground(Color.WHITE);
 				btnPlaceBet.setFont(new Font("Dialog", Font.PLAIN, 20));
 				btnPlaceBet.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						remove(panelBetPlacement);
+//						panelBetPlacement.remove(panelSetBet);
+//						panelBetPlacement.remove(panelPlaceBet);						
+						repaint();
 						BlackjackGame.setBet(bet);
-						panelBetPlacement.setVisible(false);
+//						panelBetPlacement.setVisible(false);
+						
 					}
 				});
 				panelPlaceBet.add(btnPlaceBet, BorderLayout.CENTER);
+				
+			
+
 	}
 	
 	private void updateBetAmount() {lblBetAmount.setText("Bet: $" + bet);}
+	
+	private void betTooHigh() {
+		lblBetAmount.setText("Bet: $" + bet + "\nMAX BET");
+		lblBetAmount.setForeground(Color.RED);
+	}
 	
 	private void btnChangeBetActionListener(JButton button, int betIncrement) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (betIncrement == 0)
 					bet = 0;
-				bet += betIncrement;
-				updateBetAmount();
+				if ((bet + betIncrement) >= maxBet) {
+					bet = 500;
+					betTooHigh();
+				}
+				else {
+					bet += betIncrement;
+					updateBetAmount();
+					lblBetAmount.setForeground(Color.WHITE);
+				}
 			}
 		});
 	}

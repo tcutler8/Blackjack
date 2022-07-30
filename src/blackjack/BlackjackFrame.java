@@ -18,7 +18,7 @@ public class BlackjackFrame extends JFrame {
 	public BlackjackFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 720);
+		setBounds(100, 100, 1000, 780);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();

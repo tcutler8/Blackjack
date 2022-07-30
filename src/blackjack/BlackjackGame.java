@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class BlackjackGame {
 	
-	public final static User player = new User(2500);
+	public final static User player = new User(500);
 	private static Dealer dealer = new Dealer();
 	private static DeckHandler deck = new DeckHandler();
 	private static int bet = 0;
@@ -133,6 +133,10 @@ public class BlackjackGame {
 		deck.shuffle();
 		System.out.print("Amount of cards in new deck: ");
 		System.out.println(deck.getCardsLeftCount());
+	}
+
+	public static int getChips() {
+		return player.getBalance();
 	}
 
 }
