@@ -27,7 +27,7 @@ public class ActionPanel extends JPanel {
 	private JLabel lblChipCount;
 	
 	private int bet = 10;
-	private int balance = BlackjackGame.getChips(); 
+	private static int balance = BlackjackGame.getChips(); 
 	
 	/**
 	 * Create the panel.
@@ -56,6 +56,11 @@ public class ActionPanel extends JPanel {
 	// PANEL CREATION METHODS
 	//
 	
+	/**
+	 * Creates the betting JPanel where the user can select the amount of chips
+	 * to play blackjack against the dealer. Displays the bet and the amount of
+	 * chips the player has
+	 */
 	public void createBetPlacementPanel() {
 		panelBetPlacement = new JPanel();
 		panelBetPlacement.setVisible(false);
@@ -81,26 +86,32 @@ public class ActionPanel extends JPanel {
 				panelSetBet.add(panelBtnsIncrementBet, BorderLayout.CENTER);
 				
 					JButton btnPlus1 = new BlackjackButton("+$1");
+					btnPlus1.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus1, 1);
 					panelBtnsIncrementBet.add(btnPlus1);
 					
 					JButton btnPlus5 = new BlackjackButton("+$5");
+					btnPlus5.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus5, 5);
 					panelBtnsIncrementBet.add(btnPlus5);
 					
 					JButton btnPlus10 = new BlackjackButton("+$10");
+					btnPlus10.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus10, 10);
 					panelBtnsIncrementBet.add(btnPlus10);
 					
 					JButton btnPlus25 = new BlackjackButton("+$25");
+					btnPlus25.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus25, 25);
 					panelBtnsIncrementBet.add(btnPlus25);
 					
 					JButton btnPlus100 = new BlackjackButton("+$100");
+					btnPlus100.setForeground(Color.WHITE);
 					btnChangeBetActionListener(btnPlus100, 100);
 					panelBtnsIncrementBet.add(btnPlus100);
 					
 				JButton btnResetBet = new BlackjackButton("Reset Bet");
+				btnResetBet.setForeground(Color.WHITE);
 				btnChangeBetActionListener(btnResetBet, 0);
 				panelSetBet.add(btnResetBet, BorderLayout.SOUTH);
 					
@@ -118,6 +129,7 @@ public class ActionPanel extends JPanel {
 				panelPlaceBet.add(lblChipCount, BorderLayout.NORTH);
 			
 				JButton btnPlaceBet = new BlackjackButton("Place Bet");
+				btnPlaceBet.setForeground(Color.WHITE);
 				btnPlaceBet.setFont(new Font("Dialog", Font.PLAIN, 20));
 				btnPlaceBet.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -135,6 +147,10 @@ public class ActionPanel extends JPanel {
 				panelPlaceBet.add(btnPlaceBet, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Creates the JPanel where the user can select to hit (take another card)
+	 * or stay (take no more cards)
+	 */
 	private void createHitOrStayPanel() {
 		panelHitOrStay = new JPanel();
 		panelHitOrStay.setBorder(new EmptyBorder(30, 0, 0, 0));
@@ -143,6 +159,7 @@ public class ActionPanel extends JPanel {
 		panelHitOrStay.setOpaque(false);
 		
 			JButton btnHit = new BlackjackButton("HIT");
+			btnHit.setForeground(Color.WHITE);
 			btnHit.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnHit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -152,6 +169,7 @@ public class ActionPanel extends JPanel {
 			panelHitOrStay.add(btnHit);
 			
 			JButton btnStay = new BlackjackButton("STAY");
+			btnStay.setForeground(Color.WHITE);
 			btnStay.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnStay.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -162,6 +180,9 @@ public class ActionPanel extends JPanel {
 		
 	}
 
+	/**
+	 * Creates the JPanel where the user can select to play again or quit the game
+	 */
 	private void createContinueOrExitPanel() {
 		panelContinueOrExit = new JPanel();
 		panelContinueOrExit.setBorder(new EmptyBorder(30, 0, 0, 0));
@@ -170,6 +191,7 @@ public class ActionPanel extends JPanel {
 		panelContinueOrExit.setOpaque(false);
 		
 			JButton btnNextRound = new BlackjackButton("Next Round");
+			btnNextRound.setForeground(Color.WHITE);
 			btnNextRound.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnNextRound.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -184,16 +206,18 @@ public class ActionPanel extends JPanel {
 					lblChipCount.setText("Balance: $" + balance);
 					panelBetPlacement.setVisible(true);
 					add(panelBetPlacement);
-					
+					BlackjackGame.playerResults();
 					repaint();
 				}
 			});
 			panelContinueOrExit.add(btnNextRound);
 			
 			JButton btnQuitGame = new BlackjackButton("Quit Game");
+			btnQuitGame.setForeground(Color.WHITE);
 			btnQuitGame.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnQuitGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					BlackjackGame.playerResults();
 					System.exit(0);
 				}
 			});
@@ -204,6 +228,10 @@ public class ActionPanel extends JPanel {
 	// OTHER METHODS
 	//
 	
+	/**
+	 * Hit or Stay buttons are hidden and "Next Round" or "Quit Game" buttons 
+	 * appear for user to play again or quit
+	 */
 	public void continueOrQuit() {
 		panelHitOrStay.setVisible(false);
 		remove(panelHitOrStay);
@@ -214,13 +242,25 @@ public class ActionPanel extends JPanel {
 		repaint();
 	}
 	
+	/**
+	 * Informs the user what the total bet amount is
+	 */
 	private void updateBetAmount() {lblBetAmount.setText("Bet: $" + bet);}
 	
+	/**
+	 * Informs the player that they have bet their total chips
+	 */
 	private void betTooHigh() {
 		lblBetAmount.setText("Bet: $" + bet + " (MAX BET)  ");
 		lblBetAmount.setForeground(Color.RED);
 	}
 	
+	/**
+	 * Adds to the total bet based on the button the player selects. Bet will reset
+	 * to zero if the reset button is selected
+	 * @param Button that user selects
+	 * @param Amount of $ user is selecting to bet
+	 */
 	private void btnChangeBetActionListener(JButton button, int betIncrement) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
