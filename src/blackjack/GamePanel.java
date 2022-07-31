@@ -82,8 +82,6 @@ public class GamePanel extends JPanel {
 			this.dealerCards[i].setIcon(dealerHand.get(i).getFaceImage());
 			this.dealerCards[i].setVisible(true);
 		}
-		repaint();
-		System.out.println(dealerHand);
 	}
 	
 	public void showUserCards(List<Card>  userHand) {
