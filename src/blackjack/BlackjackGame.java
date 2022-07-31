@@ -59,9 +59,19 @@ public class BlackjackGame extends  JFrame {
 	 * Creates the game
 	 */
 	public BlackjackGame() {
+		// For eclipse when working on the code. Puts txt file in the
+		// src directory of the project. 
 		dir = new File("src/blackjack/textfiles/");
 		dir.mkdir();
 		file = new File("src/blackjack/textfiles/PlayerBalance.txt");
+		
+		/*
+		// For the final JAR file. Puts the txt file in the same 
+		// directory as the JAR file.
+		dir = new File("./textfiles/");
+		dir.mkdir();
+		file = new File("./textfiles/PlayerBalance.txt");
+		*/
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,7 +118,7 @@ public class BlackjackGame extends  JFrame {
 	 */
 	public static void roundReset() {
 		gamePanel.clearCards();
-		gamePanel.roundConclusion("\nStatistics:\n\n" + getPlayerResults()
+		gamePanel.roundConclusion("\nStatistics:\n" + getPlayerResults()
 			+ ((deckCheck()) ? "\nReshuffling..." : ""));
 		
 		dealer.clearHand();
@@ -121,7 +131,7 @@ public class BlackjackGame extends  JFrame {
 	}
 	
 	public static void gameReset() {
-		gamePanel.roundConclusion("GAMEOVER\nFinal Statistics:\n\n" + getPlayerResults() + "\nResetting...");
+		gamePanel.roundConclusion("GAMEOVER\nFinal Statistics:\n" + getPlayerResults() + "\nResetting...");
 		playerWins = playerLosses = playerPushes = 0;
 		playerResults();
 	
@@ -243,15 +253,12 @@ public class BlackjackGame extends  JFrame {
 	public static void playerResults() {
 		try (PrintWriter writer = new PrintWriter(file)) { 
 			writer.printf("%-16s: $%d%n", "Player's Balance", getChips());
-			writer.printf("%-16s: %d%n",  "Total Wins", 	     playerWins);
-			writer.printf("%-16s: %d%n",  "Total Losses",	 playerLosses);
-			writer.printf("%-16s: %d",    "Total Pushes", 	 playerPushes);
+			writer.printf("%-16s: %d%n",  "Total Wins",       playerWins);
+			writer.printf("%-16s: %d%n",  "Total Losses",     playerLosses);
+			writer.printf("%-16s: %d%n",  "Total Pushes",     playerPushes);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(getPlayerResults());
-		
-		
 	}
 	
 	/**
