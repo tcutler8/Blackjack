@@ -74,8 +74,17 @@ public class BlackjackGame extends  JFrame {
 	
 	public static void startGame(int bet) {
 		BlackjackGame.bet = bet;
+		user.changeBalance(-bet);
+		
 		dealCards();
 		gamePanel.placeCardsOnTable(dealer.getFirstCard(), user.getHand());
+	}
+	
+	public static void reset() {
+		gamePanel.roundConclusion(null);
+		dealer.clearHand();
+		user.clearHand();
+		gamePanel.clearCards();
 	}
 
 	public static int getChips() {return user.getBalance();}
@@ -86,6 +95,58 @@ public class BlackjackGame extends  JFrame {
 			deck.dealTo(user);
 			deck.dealTo(dealer);
 		}
+		
+		if (user.getTotalScore() == 21) {
+			int winnings = (int) (bet * 2.5);
+			gamePanel.showDealerCards(dealer.getHand());
+			gamePanel.roundConclusion("Blackjack! +$" + winnings);
+			actionPanel.continueOrQuit();
+			user.changeBalance(winnings);
+		}
+		
+	}
+	
+	public static void hit() {
+		deck.dealTo(user);
+		gamePanel.showUserCards(user.getHand());
+		
+		if (user.getTotalScore() >= 21)
+			stay();
+	}
+	
+	public static void stay() {
+		dealersTurn();
+		gamePanel.showDealerCards(dealer.getHand());
+		
+		int winnings = bet; // assumes push
+		
+		if (dealer.getTotalScore() > 21) {
+			if (user.getTotalScore() < 21) {
+				winnings = bet * 2;
+				gamePanel.roundConclusion("Dealer busted. +$" + winnings);
+			} else
+				gamePanel.roundConclusion("You and dealer busted. +$" + winnings);
+			
+			user.changeBalance(winnings);
+		} else if (user.getTotalScore() > 21) {
+			gamePanel.roundConclusion("You busted.");
+		} else if (user.getTotalScore() > dealer.getTotalScore()) {
+			winnings = bet * 2;
+			user.changeBalance(winnings);
+			gamePanel.roundConclusion("You win! +$" + winnings);
+		} else if (user.getTotalScore() < dealer.getTotalScore()) {
+			gamePanel.roundConclusion("You Lose.");
+		} else {
+			user.changeBalance(winnings);
+			gamePanel.roundConclusion("Push. +$" + winnings);
+		}
+		
+		actionPanel.continueOrQuit();
+	}
+	
+	public static void dealersTurn() {
+		while(dealer.shouldHit())
+			deck.dealTo(dealer);
 	}
 
 	//

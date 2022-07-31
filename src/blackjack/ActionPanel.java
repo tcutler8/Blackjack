@@ -11,36 +11,43 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.FlowLayout;
 
 public class ActionPanel extends JPanel {
 
 	private static final long serialVersionUID = 2137955758829872303L;
 	
-	JPanel panelBetPlacement;
-	JPanel panelHitOrStay;
+	private JPanel panelBetPlacement;
+	private JPanel panelHitOrStay;
+	private JPanel panelContinueOrExit;
 	
 	private JLabel lblBetAmount;
-	private int bet = 0;
-	//private BlackjackGame playerChips = new BlackjackGame();
-	private int maxBet = BlackjackGame.getChips(); 
-	// 
+	private JLabel lblChipCount;
+	
+	private int bet = 10;
+	private int balance = BlackjackGame.getChips(); 
 	
 	/**
 	 * Create the panel.
 	 */
 	public ActionPanel() {
+		setBackground(new Color(15, 10, 0));
 		//setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(5, 0, 0, 0));
-		setBackground(Color.BLACK);
+		setBorder(new CompoundBorder(
+				new LineBorder(new Color(0, 0, 0), 3),
+				new EmptyBorder(5, 0, 0, 0)));
 		
 		createBetPlacementPanel();
 		panelBetPlacement.setVisible(true);
 		add(panelBetPlacement);
 		
 		createHitOrStayPanel();
+		panelHitOrStay.setVisible(false);
+		add(panelHitOrStay);
+		
+		createContinueOrExitPanel();
 		panelHitOrStay.setVisible(false);
 		add(panelHitOrStay);
 	}
@@ -100,21 +107,20 @@ public class ActionPanel extends JPanel {
 			JPanel panelPlaceBet = new JPanel();
 			panelPlaceBet.setOpaque(false);
 			panelPlaceBet.setBorder(new EmptyBorder(0, 90, 0, 0));
-			panelPlaceBet.setLayout(new BorderLayout());
+			panelPlaceBet.setLayout(new BorderLayout(0, 10));
 			panelBetPlacement.add(panelPlaceBet);
 			
-			JLabel lblChipCount = new JLabel();
-			lblChipCount.setText("Starting Chip Count: $" + maxBet);
-			lblChipCount.setHorizontalAlignment(SwingConstants.CENTER);
-			lblChipCount.setForeground(Color.WHITE);
-			lblChipCount.setFont(new Font("Dialog", Font.BOLD, 16));
-			panelPlaceBet.add(lblChipCount, BorderLayout.NORTH);
+				lblChipCount = new JLabel();
+				lblChipCount.setText("Balance: $" + balance);
+				lblChipCount.setHorizontalAlignment(SwingConstants.CENTER);
+				lblChipCount.setForeground(Color.WHITE);
+				lblChipCount.setFont(new Font("Dialog", Font.BOLD, 16));
+				panelPlaceBet.add(lblChipCount, BorderLayout.NORTH);
 			
 				JButton btnPlaceBet = new BlackjackButton("Place Bet");
 				btnPlaceBet.setFont(new Font("Dialog", Font.PLAIN, 20));
 				btnPlaceBet.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						BlackjackGame.startGame(bet);
 						panelBetPlacement.setVisible(false);
 						remove(panelBetPlacement);
 						
@@ -122,13 +128,14 @@ public class ActionPanel extends JPanel {
 						add(panelHitOrStay);
 						
 						repaint();
-						
+
+						BlackjackGame.startGame(bet);
 					}
 				});
 				panelPlaceBet.add(btnPlaceBet, BorderLayout.CENTER);
 	}
 	
-	public void createHitOrStayPanel() {
+	private void createHitOrStayPanel() {
 		panelHitOrStay = new JPanel();
 		panelHitOrStay.setBorder(new EmptyBorder(30, 0, 0, 0));
 		panelHitOrStay.setVisible(false);
@@ -139,25 +146,73 @@ public class ActionPanel extends JPanel {
 			btnHit.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnHit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					BlackjackGame.hit();
 				}
 			});
 			panelHitOrStay.add(btnHit);
 			
 			JButton btnStay = new BlackjackButton("STAY");
 			btnStay.setFont(new Font("Dialog", Font.PLAIN, 24));
-			btnHit.addActionListener(new ActionListener() {
+			btnStay.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					BlackjackGame.stay();
 				}
 			});
 			panelHitOrStay.add(btnStay);
 		
 	}
-	
+
+	private void createContinueOrExitPanel() {
+		panelContinueOrExit = new JPanel();
+		panelContinueOrExit.setBorder(new EmptyBorder(30, 0, 0, 0));
+		panelContinueOrExit.setVisible(false);
+		panelContinueOrExit.setLayout(new GridLayout(0, 2, 15, 0));
+		panelContinueOrExit.setOpaque(false);
+		
+			JButton btnNextRound = new BlackjackButton("Next Round");
+			btnNextRound.setFont(new Font("Dialog", Font.PLAIN, 24));
+			btnNextRound.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BlackjackGame.reset();
+					
+					panelContinueOrExit.setVisible(false);
+					remove(panelContinueOrExit);
+					
+					bet = 10;
+					balance = BlackjackGame.getChips();
+					lblBetAmount.setText("Bet: $" + bet);
+					lblChipCount.setText("Balance: $" + balance);
+					panelBetPlacement.setVisible(true);
+					add(panelBetPlacement);
+					
+					repaint();
+				}
+			});
+			panelContinueOrExit.add(btnNextRound);
+			
+			JButton btnQuitGame = new BlackjackButton("Quit Game");
+			btnQuitGame.setFont(new Font("Dialog", Font.PLAIN, 24));
+			btnQuitGame.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+			panelContinueOrExit.add(btnQuitGame);
+	}
+
 	//
 	// OTHER METHODS
 	//
+	
+	public void continueOrQuit() {
+		panelHitOrStay.setVisible(false);
+		remove(panelHitOrStay);
+		
+		panelContinueOrExit.setVisible(true);
+		add(panelContinueOrExit);
+		
+		repaint();
+	}
 	
 	private void updateBetAmount() {lblBetAmount.setText("Bet: $" + bet);}
 	
@@ -169,10 +224,12 @@ public class ActionPanel extends JPanel {
 	private void btnChangeBetActionListener(JButton button, int betIncrement) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (betIncrement == 0)
-					bet = 0;
-				if ((bet + betIncrement) >= maxBet) {
-					bet = 500;
+				if (betIncrement == 0) {
+					bet = 10;
+					lblBetAmount.setForeground(Color.WHITE);
+				}
+				if ((bet + betIncrement) >= balance) {
+					bet = balance;
 					betTooHigh();
 				}
 				else {
