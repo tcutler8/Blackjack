@@ -11,8 +11,6 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
-
 /**
  * Game of BlackJack between the dealer (computer) and the user. 
  * 
@@ -21,19 +19,23 @@ import javax.swing.JPanel;
 public class BlackjackGame extends  JFrame {
 	
 	private static final long serialVersionUID = -7888782584683513688L;
-	
-	public final static User user = new User(500);
+
+	private final static int INITIAL_BALANCE = 500;
+	public final static User user = new User(INITIAL_BALANCE);
 	private static Dealer dealer = new Dealer();
 	private static DeckHandler deck = new DeckHandler();
-	private static int bet = 0;
 
 	private static BlackjackGame frame;
 	
 	private static GamePanel gamePanel;
 	private static ActionPanel actionPanel;
+	
 	private static int playerWins = 0;
 	private static int playerLosses = 0;
 	private static int playerPushes = 0;
+	private static int bet = 0;
+	
+	private static File dir, file;
 	
 	//
 	// SET UP FRAME
@@ -57,6 +59,10 @@ public class BlackjackGame extends  JFrame {
 	 * Creates the game
 	 */
 	public BlackjackGame() {
+		dir = new File("src/blackjack/textfiles/");
+		dir.mkdir();
+		file = new File("src/blackjack/textfiles/PlayerBalance.txt");
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 780);
@@ -100,12 +106,27 @@ public class BlackjackGame extends  JFrame {
 	 * again. The betting panel will be displayed and the GamePanel is cleared. Also
 	 * will shuffle cards if there are 20 cards or less
 	 */
-	public static void reset() {
-		gamePanel.roundConclusion(getPlayerResults());
+	public static void roundReset() {
+		gamePanel.clearCards();
+		gamePanel.roundConclusion("\nStatistics:\n\n" + getPlayerResults()
+			+ ((deckCheck()) ? "\nReshuffling..." : ""));
+		
 		dealer.clearHand();
 		user.clearHand();
-		gamePanel.clearCards();
-		deckCheck();
+		
+		actionPanel.resetBetForeground();
+
+		if (user.getBalance() < 10)
+			gameReset();
+	}
+	
+	public static void gameReset() {
+		gamePanel.roundConclusion("GAMEOVER\nFinal Statistics:\n\n" + getPlayerResults() + "\nResetting...");
+		playerWins = playerLosses = playerPushes = 0;
+		playerResults();
+	
+		user.setBalance(INITIAL_BALANCE);
+		deck.shuffle();
 	}
 
 	/**
@@ -129,7 +150,7 @@ public class BlackjackGame extends  JFrame {
 		if (user.getTotalScore() == 21) {
 			int winnings = (int) (bet * 2.5);
 			gamePanel.showDealerCards(dealer.getHand());
-			gamePanel.roundConclusion("\nBlackjack! +$" + winnings);
+			gamePanel.roundConclusion("\nBlackjack!\n+$" + winnings);
 			actionPanel.continueOrQuit();
 			user.changeBalance(winnings);
 			playerWins = playerWins+ 1;
@@ -164,10 +185,10 @@ public class BlackjackGame extends  JFrame {
 		if (dealer.getTotalScore() > 21) {
 			if (user.getTotalScore() <= 21) {
 				winnings = bet * 2;
-				gamePanel.roundConclusion("\nDealer busted. +$" + winnings);
+				gamePanel.roundConclusion("\nDealer busted.\n+$" + winnings);
 				playerWins = playerWins+ 1;
 			} else {
-				gamePanel.roundConclusion("\nYou and dealer busted. +$" + winnings);
+				gamePanel.roundConclusion("\nYou and dealer busted.\n+$" + winnings);
 				playerLosses = playerLosses + 1;
 			}
 			
@@ -178,7 +199,7 @@ public class BlackjackGame extends  JFrame {
 		} else if (user.getTotalScore() > dealer.getTotalScore()) {
 			winnings = bet * 2;
 			user.changeBalance(winnings);
-			gamePanel.roundConclusion("\nYou win! +$" + winnings);
+			gamePanel.roundConclusion("\nYou win!\n+$" + winnings);
 			playerWins = playerWins+ 1;
 		} else if (user.getTotalScore() < dealer.getTotalScore()) {
 			gamePanel.roundConclusion("\nYou Lose.");
@@ -189,6 +210,7 @@ public class BlackjackGame extends  JFrame {
 			playerPushes = playerPushes + 1;
 		}
 		
+		playerResults();
 		actionPanel.continueOrQuit();
 	}
 	
@@ -204,10 +226,14 @@ public class BlackjackGame extends  JFrame {
 	/**
 	 * Checks to see if the deck has 20 cards or less remaining. If it does, the deck
 	 * is shuffled and reset so that dealer does not run out of cards
+	 * @return true if shuffled, false if left alone
 	 */
-	public static void deckCheck() {
-		if (deck.getCardsLeftCount() <= 20) 
+	public static boolean deckCheck() {
+		if (deck.getCardsLeftCount() <= 20) {
 			deck.shuffle();
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -215,16 +241,17 @@ public class BlackjackGame extends  JFrame {
 	 * and amount of wins, losses, and pushes
 	 */
 	public static void playerResults() {
-		String file = "src/textFiles/PlayerBalance.txt";
 		try (PrintWriter writer = new PrintWriter(file)) { 
-			writer.println("Player's Balance:	$" + getChips());
-			writer.println("Total wins:		" + playerWins);
-			writer.println("Total losses:		" + playerLosses);
-			writer.println("Total pushes:		" + playerPushes);
+			writer.printf("%-16s: $%d%n", "Player's Balance", getChips());
+			writer.printf("%-16s: %d%n",  "Total Wins", 	     playerWins);
+			writer.printf("%-16s: %d%n",  "Total Losses",	 playerLosses);
+			writer.printf("%-16s: %d",    "Total Pushes", 	 playerPushes);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		System.out.println(getPlayerResults());
+		
+		
 	}
 	
 	/**
@@ -233,13 +260,10 @@ public class BlackjackGame extends  JFrame {
 	 * @return file contents
 	 */
 	public static String getPlayerResults() {
-		String file = "src/textFiles/PlayerBalance.txt";
 		String results = "";
-		try (Scanner reader = new Scanner(new File (file))) {
-			results = reader.nextLine() + "\n";
-			while (reader.hasNextLine()) {
-				results = results + reader.nextLine() + "\n";
-			}
+		try (Scanner reader = new Scanner(file)) {
+			while (reader.hasNextLine())
+				results += reader.nextLine() + "\n";
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -249,7 +273,7 @@ public class BlackjackGame extends  JFrame {
 	//
 	// CONSOLE TEST CLIENT
 	//
-	
+	/*
 	@SuppressWarnings("unused")
 	private static void consoleTestClient() {
 		Scanner     scan 	 = new Scanner(System.in);
@@ -351,5 +375,6 @@ public class BlackjackGame extends  JFrame {
 		System.out.print("Amount of cards in new deck: ");
 		System.out.println(deck.getCardsLeftCount());
 	}
+	*/
 
 }

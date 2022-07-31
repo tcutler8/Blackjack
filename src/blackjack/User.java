@@ -13,12 +13,14 @@ public class User extends Player {
 	 * Initialize the user's balance.
 	 * @param balance
 	 */
-	public User(int balance) {this.balance = balance;}
+	public User(int balance) {setBalance(balance);}
 	
 	/**
 	 * @return user's balance
 	 */
 	public int getBalance() {return balance;}
+	
+	public void setBalance(int balance) {this.balance = balance;}
 	
 	/**
 	 * Change the user's balance by <code>addend</code> 

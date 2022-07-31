@@ -195,7 +195,7 @@ public class ActionPanel extends JPanel {
 			btnNextRound.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnNextRound.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					BlackjackGame.reset();
+					BlackjackGame.roundReset();
 					
 					panelContinueOrExit.setVisible(false);
 					remove(panelContinueOrExit);
@@ -206,14 +206,12 @@ public class ActionPanel extends JPanel {
 					lblChipCount.setText("Balance: $" + balance);
 					panelBetPlacement.setVisible(true);
 					add(panelBetPlacement);
-					BlackjackGame.playerResults();
 					repaint();
 				}
 			});
 			panelContinueOrExit.add(btnNextRound);
 			
 			JButton btnQuitGame = new BlackjackButton("Quit Game");
-			btnQuitGame.setForeground(Color.WHITE);
 			btnQuitGame.setFont(new Font("Dialog", Font.PLAIN, 24));
 			btnQuitGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -256,27 +254,29 @@ public class ActionPanel extends JPanel {
 	}
 	
 	/**
-	 * Adds to the total bet based on the button the player selects. Bet will reset
-	 * to zero if the reset button is selected
+	 * Adds to the total bet based on the button the player selects. Bet will
+	 * reset to zero if the reset button is selected
 	 * @param Button that user selects
 	 * @param Amount of $ user is selecting to bet
 	 */
 	private void btnChangeBetActionListener(JButton button, int betIncrement) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (betIncrement == 0) {
+				resetBetForeground();
+				if (betIncrement == 0)
 					bet = 10;
-					lblBetAmount.setForeground(Color.WHITE);
-				}
+				
 				if ((bet + betIncrement) >= balance) {
 					bet = balance;
 					betTooHigh();
-				}
-				else {
+				} else {
 					bet += betIncrement;
 					updateBetAmount();
 				}
 			}
 		});
 	}
+	
+	public void resetBetForeground() {lblBetAmount.setForeground(Color.WHITE);}
+	
 }

@@ -9,10 +9,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -71,7 +68,6 @@ public class GamePanel extends JPanel {
 		conclusion.setAutoscrolls(false);
 		conclusion.setEditable(false);
 		conclusion.setBackground(new Color(0, 102, 0));
-//		conclusion.setHorizontalAlignment(SwingConstants.CENTER);
 		conclusion.setForeground(Color.WHITE);
 		conclusion.setFont(new Font("Dialog", Font.PLAIN, 48));
 		StyledDocument doc = conclusion.getStyledDocument();
